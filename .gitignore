@@ -105,5 +105,4 @@ dist
 
 tmp/
 .DS_Store
-data/
 docker-compose.yml
