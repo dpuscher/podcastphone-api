@@ -2,6 +2,7 @@ const express = require("express");
 const compression = require("compression");
 const { Area } = require("../models");
 const isEmpty = require("./helper/isEmpty");
+const zdfHeuteFeed = require("./feeds/zdfHeuteFeed");
 
 const app = express();
 const port = parseInt(process.env.PORT, 10) || 3000;
@@ -29,6 +30,11 @@ app.get("/data", async ({ query }, res) => {
   res.json({
     state: area.state,
   });
+});
+
+app.get("/news", async ({ query }, res) => {
+  const news = await zdfHeuteFeed();
+  res.json(news);
 });
 
 // eslint-disable-next-line no-console
