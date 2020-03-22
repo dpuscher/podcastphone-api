@@ -4,7 +4,7 @@ module.exports = {
     es6: true,
     node: true,
   },
-  extends: ["eslint:recommended", "airbnb", "plugin:prettier/recommended"],
+  extends: ["eslint:recommended", "airbnb-base", "plugin:prettier/recommended"],
   plugins: ["prettier"],
   globals: {
     Atomics: "readonly",
