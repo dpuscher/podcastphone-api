@@ -1,11 +1,16 @@
-const zdfHeuteFeed = require("../feeds/zdfHeuteFeed");
+const feedContent = require("../feeds/feedContent");
 const isEmpty = require("../helper/isEmpty");
 
-const FEEDS = {};
+const FALLBACK_FEED = "https://www.zdf.de/rss/zdf/nachrichten";
+
+const FEEDS = {
+  Berlin:
+    "https://www.berlin.de/presse/pressemitteilungen/index/feed?searchtext=corona",
+};
 
 const getGeneralNews = async () => ({
   state: "Deutschland",
-  items: await zdfHeuteFeed(),
+  items: await feedContent(FALLBACK_FEED),
 });
 
 module.exports = async (state) => {
@@ -14,5 +19,8 @@ module.exports = async (state) => {
   const feed = FEEDS[state];
   if (!feed) return getGeneralNews();
 
-  return [];
+  return {
+    state,
+    items: await feedContent(feed),
+  };
 };

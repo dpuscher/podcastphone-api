@@ -1,18 +1,20 @@
-const parser = require("./parser");
 const get = require("lodash/get");
 const format = require("date-fns/format");
 const de = require("date-fns/locale/de");
+const isEmpty = require("../helper/isEmpty");
+const parser = require("./xmlParser");
 const feedItem = require("./feedItem");
 
-const FEED_URL = "https://www.zdf.de/rss/zdf/nachrichten";
+module.exports = async (url, limit = 5) => {
+  if (isEmpty(url) || limit <= 0) return [];
 
-module.exports = async (limit = 5) => {
-  const data = await parser(FEED_URL);
+  const data = await parser(url);
 
   const items = get(data, "rss.channel.0.item");
 
-  return items.slice(0, limit).map(item => {
-    let date, time;
+  return items.slice(0, limit).map((item) => {
+    let date;
+    let time;
 
     const title = get(item, "title.0");
     const content = get(item, "description.0");
